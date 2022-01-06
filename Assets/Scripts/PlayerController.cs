@@ -6,14 +6,23 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     private InputActions playerInputActions;
+    private InputAction inputAction;
     private float moveDirection;
     private Vector3 moveVector;
-
+    [SerializeField] public int player;
     [SerializeField] public float moveSpeed = 5.0f;
 
     private void Awake()
     {
         playerInputActions = new InputActions();
+        if (player == 1)
+        {
+            inputAction = playerInputActions.Paddle1.Move;
+        }
+        if (player == 2)
+        {
+            inputAction = playerInputActions.Paddle2.Move;
+        }
     }
 
     // Start is called before the first frame update
@@ -24,7 +33,8 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        moveDirection = playerInputActions.Paddle.Move.ReadValue<float>();
+
+        moveDirection = inputAction.ReadValue<float>();
         if (moveDirection != 0)
         {
             Debug.Log(moveDirection);
@@ -44,11 +54,25 @@ public class PlayerController : MonoBehaviour
 
     private void OnEnable()
     {
-        playerInputActions.Paddle.Enable();
+        if (player == 1)
+        {
+            playerInputActions.Paddle1.Enable();
+        }
+        if (player == 2)
+        {
+            playerInputActions.Paddle2.Enable();
+        }
     }
 
     private void OnDisable()
     {
-        playerInputActions.Paddle.Disable();
+        if(player == 1)
+        {
+            playerInputActions.Paddle1.Disable();
+        }
+        if (player == 2)
+        {
+            playerInputActions.Paddle2.Disable();
+        }
     }
 }

@@ -2,7 +2,7 @@
     "name": "InputActions",
     "maps": [
         {
-            "name": "Paddle",
+            "name": "Paddle2",
             "id": "3812a05f-b8af-411d-9b3f-28e44b42eae6",
             "actions": [
                 {
@@ -42,6 +42,56 @@
                     "name": "positive",
                     "id": "c09ba592-68a7-40f3-a43d-c7fba44fd5e5",
                     "path": "<Keyboard>/upArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                }
+            ]
+        },
+        {
+            "name": "Paddle1",
+            "id": "03e336c8-e3e0-473f-825a-efa2c254ae4c",
+            "actions": [
+                {
+                    "name": "Move",
+                    "type": "Value",
+                    "id": "7c838894-b57a-43bf-bb99-858ec1db219e",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "1D Axis",
+                    "id": "14096f4e-3edd-4d9d-83b2-af8b632ae43a",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "0def3c9e-4df5-4ae8-965f-e26ddaab95e3",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "ff1106a0-5f74-4dd9-ba0d-27514840bcf7",
+                    "path": "<Keyboard>/w",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

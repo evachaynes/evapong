@@ -24,7 +24,7 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
     ""name"": ""InputActions"",
     ""maps"": [
         {
-            ""name"": ""Paddle"",
+            ""name"": ""Paddle2"",
             ""id"": ""3812a05f-b8af-411d-9b3f-28e44b42eae6"",
             ""actions"": [
                 {
@@ -74,6 +74,56 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
             ]
         },
         {
+            ""name"": ""Paddle1"",
+            ""id"": ""03e336c8-e3e0-473f-825a-efa2c254ae4c"",
+            ""actions"": [
+                {
+                    ""name"": ""Move"",
+                    ""type"": ""Value"",
+                    ""id"": ""7c838894-b57a-43bf-bb99-858ec1db219e"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""14096f4e-3edd-4d9d-83b2-af8b632ae43a"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""0def3c9e-4df5-4ae8-965f-e26ddaab95e3"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""ff1106a0-5f74-4dd9-ba0d-27514840bcf7"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                }
+            ]
+        },
+        {
             ""name"": ""Game"",
             ""id"": ""c116b649-88f5-423e-bae6-bb041bba0026"",
             ""actions"": [
@@ -104,9 +154,12 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
     ],
     ""controlSchemes"": []
 }");
-        // Paddle
-        m_Paddle = asset.FindActionMap("Paddle", throwIfNotFound: true);
-        m_Paddle_Move = m_Paddle.FindAction("Move", throwIfNotFound: true);
+        // Paddle2
+        m_Paddle2 = asset.FindActionMap("Paddle2", throwIfNotFound: true);
+        m_Paddle2_Move = m_Paddle2.FindAction("Move", throwIfNotFound: true);
+        // Paddle1
+        m_Paddle1 = asset.FindActionMap("Paddle1", throwIfNotFound: true);
+        m_Paddle1_Move = m_Paddle1.FindAction("Move", throwIfNotFound: true);
         // Game
         m_Game = asset.FindActionMap("Game", throwIfNotFound: true);
         m_Game_Start = m_Game.FindAction("Start", throwIfNotFound: true);
@@ -166,29 +219,29 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
         return asset.FindBinding(bindingMask, out action);
     }
 
-    // Paddle
-    private readonly InputActionMap m_Paddle;
-    private IPaddleActions m_PaddleActionsCallbackInterface;
-    private readonly InputAction m_Paddle_Move;
-    public struct PaddleActions
+    // Paddle2
+    private readonly InputActionMap m_Paddle2;
+    private IPaddle2Actions m_Paddle2ActionsCallbackInterface;
+    private readonly InputAction m_Paddle2_Move;
+    public struct Paddle2Actions
     {
         private @InputActions m_Wrapper;
-        public PaddleActions(@InputActions wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Move => m_Wrapper.m_Paddle_Move;
-        public InputActionMap Get() { return m_Wrapper.m_Paddle; }
+        public Paddle2Actions(@InputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Move => m_Wrapper.m_Paddle2_Move;
+        public InputActionMap Get() { return m_Wrapper.m_Paddle2; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(PaddleActions set) { return set.Get(); }
-        public void SetCallbacks(IPaddleActions instance)
+        public static implicit operator InputActionMap(Paddle2Actions set) { return set.Get(); }
+        public void SetCallbacks(IPaddle2Actions instance)
         {
-            if (m_Wrapper.m_PaddleActionsCallbackInterface != null)
+            if (m_Wrapper.m_Paddle2ActionsCallbackInterface != null)
             {
-                @Move.started -= m_Wrapper.m_PaddleActionsCallbackInterface.OnMove;
-                @Move.performed -= m_Wrapper.m_PaddleActionsCallbackInterface.OnMove;
-                @Move.canceled -= m_Wrapper.m_PaddleActionsCallbackInterface.OnMove;
+                @Move.started -= m_Wrapper.m_Paddle2ActionsCallbackInterface.OnMove;
+                @Move.performed -= m_Wrapper.m_Paddle2ActionsCallbackInterface.OnMove;
+                @Move.canceled -= m_Wrapper.m_Paddle2ActionsCallbackInterface.OnMove;
             }
-            m_Wrapper.m_PaddleActionsCallbackInterface = instance;
+            m_Wrapper.m_Paddle2ActionsCallbackInterface = instance;
             if (instance != null)
             {
                 @Move.started += instance.OnMove;
@@ -197,7 +250,40 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
             }
         }
     }
-    public PaddleActions @Paddle => new PaddleActions(this);
+    public Paddle2Actions @Paddle2 => new Paddle2Actions(this);
+
+    // Paddle1
+    private readonly InputActionMap m_Paddle1;
+    private IPaddle1Actions m_Paddle1ActionsCallbackInterface;
+    private readonly InputAction m_Paddle1_Move;
+    public struct Paddle1Actions
+    {
+        private @InputActions m_Wrapper;
+        public Paddle1Actions(@InputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Move => m_Wrapper.m_Paddle1_Move;
+        public InputActionMap Get() { return m_Wrapper.m_Paddle1; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(Paddle1Actions set) { return set.Get(); }
+        public void SetCallbacks(IPaddle1Actions instance)
+        {
+            if (m_Wrapper.m_Paddle1ActionsCallbackInterface != null)
+            {
+                @Move.started -= m_Wrapper.m_Paddle1ActionsCallbackInterface.OnMove;
+                @Move.performed -= m_Wrapper.m_Paddle1ActionsCallbackInterface.OnMove;
+                @Move.canceled -= m_Wrapper.m_Paddle1ActionsCallbackInterface.OnMove;
+            }
+            m_Wrapper.m_Paddle1ActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Move.started += instance.OnMove;
+                @Move.performed += instance.OnMove;
+                @Move.canceled += instance.OnMove;
+            }
+        }
+    }
+    public Paddle1Actions @Paddle1 => new Paddle1Actions(this);
 
     // Game
     private readonly InputActionMap m_Game;
@@ -231,7 +317,11 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
         }
     }
     public GameActions @Game => new GameActions(this);
-    public interface IPaddleActions
+    public interface IPaddle2Actions
+    {
+        void OnMove(InputAction.CallbackContext context);
+    }
+    public interface IPaddle1Actions
     {
         void OnMove(InputAction.CallbackContext context);
     }
