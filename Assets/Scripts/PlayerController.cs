@@ -22,8 +22,7 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         moveDirection = playerInputActions.Paddle.Move.ReadValue<float>();
         if (moveDirection != 0)
@@ -32,6 +31,15 @@ public class PlayerController : MonoBehaviour
         }
         moveVector = new Vector3(0, moveDirection * moveSpeed, 0);
         transform.position += moveVector * Time.deltaTime;
+
+        if (transform.position.y > 4.0f)
+        {
+            transform.position = new Vector3(transform.position.x, 4.0f, transform.position.z);
+        }
+        if (transform.position.y < -4.0f)
+        {
+            transform.position = new Vector3(transform.position.x, -4.0f, transform.position.z);
+        }
     }
 
     private void OnEnable()

@@ -5,7 +5,8 @@ using UnityEngine;
 public class BallController : MonoBehaviour
 {
     private Rigidbody2D rb;
-    public float force = -10.0f;
+    private GameObject gameController;
+    public float force = -15.0f;
 
     void Awake()
     {
@@ -15,12 +16,18 @@ public class BallController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Vector2 ballForce = new Vector2(force, 0);
-        rb.AddForce(ballForce);
+        
     }
 
     // Update is called once per frame
     void Update()
     {
+
+    }
+
+    void StartGame()
+    {
+        Vector2 ballForce = new Vector2(force, 0);
+        rb.AddForce(ballForce);
     }
 }

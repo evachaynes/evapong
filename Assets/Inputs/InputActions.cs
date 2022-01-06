@@ -72,6 +72,34 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 }
             ]
+        },
+        {
+            ""name"": ""Game"",
+            ""id"": ""c116b649-88f5-423e-bae6-bb041bba0026"",
+            ""actions"": [
+                {
+                    ""name"": ""Start"",
+                    ""type"": ""Button"",
+                    ""id"": ""53659e5f-7530-4cb5-9c4a-ab08d4d6cfc0"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""59c5cb79-37f1-418f-93a5-d2944bf1122c"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Start"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -79,6 +107,9 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
         // Paddle
         m_Paddle = asset.FindActionMap("Paddle", throwIfNotFound: true);
         m_Paddle_Move = m_Paddle.FindAction("Move", throwIfNotFound: true);
+        // Game
+        m_Game = asset.FindActionMap("Game", throwIfNotFound: true);
+        m_Game_Start = m_Game.FindAction("Start", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -167,8 +198,45 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
         }
     }
     public PaddleActions @Paddle => new PaddleActions(this);
+
+    // Game
+    private readonly InputActionMap m_Game;
+    private IGameActions m_GameActionsCallbackInterface;
+    private readonly InputAction m_Game_Start;
+    public struct GameActions
+    {
+        private @InputActions m_Wrapper;
+        public GameActions(@InputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Start => m_Wrapper.m_Game_Start;
+        public InputActionMap Get() { return m_Wrapper.m_Game; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(GameActions set) { return set.Get(); }
+        public void SetCallbacks(IGameActions instance)
+        {
+            if (m_Wrapper.m_GameActionsCallbackInterface != null)
+            {
+                @Start.started -= m_Wrapper.m_GameActionsCallbackInterface.OnStart;
+                @Start.performed -= m_Wrapper.m_GameActionsCallbackInterface.OnStart;
+                @Start.canceled -= m_Wrapper.m_GameActionsCallbackInterface.OnStart;
+            }
+            m_Wrapper.m_GameActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Start.started += instance.OnStart;
+                @Start.performed += instance.OnStart;
+                @Start.canceled += instance.OnStart;
+            }
+        }
+    }
+    public GameActions @Game => new GameActions(this);
     public interface IPaddleActions
     {
         void OnMove(InputAction.CallbackContext context);
+    }
+    public interface IGameActions
+    {
+        void OnStart(InputAction.CallbackContext context);
     }
 }
