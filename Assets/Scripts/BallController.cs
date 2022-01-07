@@ -6,7 +6,8 @@ public class BallController : MonoBehaviour
 {
     private Rigidbody2D rb;
     private GameObject gameController;
-    public float force = -15.0f;
+    public float xForce = -25.0f;
+    public float yForce = -20.0f;
 
     void Awake()
     {
@@ -27,7 +28,8 @@ public class BallController : MonoBehaviour
 
     void StartGame()
     {
-        Vector2 ballForce = new Vector2(force, 0);
+        float yRandForce = Random.Range(-8.0f, 8.0f);
+        Vector2 ballForce = new Vector2(xForce, yForce + yRandForce);
         rb.AddForce(ballForce);
     }
 }
