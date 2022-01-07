@@ -6,10 +6,14 @@ public class GameController : MonoBehaviour
 {
     private InputActions playerInputActions;
     private bool gameStart = false;
+    public int player1Score;
+    public int player2Score;
 
     private void Awake()
     {
         playerInputActions = new InputActions();
+        player1Score = 0;
+        player2Score = 0;
     }
 
     // Start is called before the first frame update
@@ -26,6 +30,22 @@ public class GameController : MonoBehaviour
             BroadcastMessage("StartGame");
             gameStart = true;
         }
+    }
+
+    public void ResetGame()
+    {
+        gameStart = false;
+        Debug.Log("Player1: " + player1Score + " Player2: " + player2Score);
+    }
+
+    public void Player1Point()
+    {
+        player1Score++;
+    }
+
+    public void Player2Point()
+    {
+        player2Score++;
     }
 
     private void OnEnable()

@@ -25,20 +25,10 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    void FixedUpdate()
+    void LateUpdate()
     {
 
         moveDirection = inputAction.ReadValue<float>();
-        if (moveDirection != 0)
-        {
-            Debug.Log(moveDirection);
-        }
         moveVector = new Vector3(0, moveDirection * moveSpeed, 0);
         transform.position += moveVector * Time.deltaTime;
 
