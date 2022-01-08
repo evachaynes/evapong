@@ -6,8 +6,8 @@ public class BallController : MonoBehaviour
 {
     private Rigidbody2D rb;
     private GameObject gameController;
-    public float xForce = -25.0f;
-    public float yForce = -20.0f;
+    public float xForce = -45.0f;
+    public float yForce = -40.0f;
 
     void Awake()
     {
