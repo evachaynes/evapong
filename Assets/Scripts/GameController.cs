@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Unity.UI;
 
 public class GameController : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class GameController : MonoBehaviour
     public int player2Score;
     public TextMeshProUGUI player1ScoreUI;
     public TextMeshProUGUI player2ScoreUI;
+    public TextMeshProUGUI startMessageUI;
 
     private void Awake()
     {
