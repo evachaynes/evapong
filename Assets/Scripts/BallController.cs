@@ -5,15 +5,18 @@ using UnityEngine;
 public class BallController : MonoBehaviour
 {
     private Rigidbody2D rb;
-    private GameObject gameController;
     public float xForce = -45.0f;
     public float yForce = -40.0f;
+    private AudioSource[] sfxComponents;
+    private AudioSource paddleHitAudio;
+    private AudioSource wallHitAudio;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        Collider2D player1Wall = GameObject.Find("LeftWall").GetComponent<Collider2D>();
-        Collider2D player2Wall = GameObject.Find("RightWall").GetComponent<Collider2D>();
+        sfxComponents = GetComponents<AudioSource>();
+        paddleHitAudio = sfxComponents[0];
+        wallHitAudio = sfxComponents[1];
     }
 
     void StartGame()
@@ -27,14 +30,22 @@ public class BallController : MonoBehaviour
     {
         if (col.name == "LeftWall")
         {
+            wallHitAudio.Play();
             transform.parent.GetComponent<GameController>().Player2Point();
+            ResetBall();
+            transform.parent.GetComponent<GameController>().ResetGame();
         }
         if (col.name == "RightWall")
         {
+            wallHitAudio.Play();
             transform.parent.GetComponent<GameController>().Player1Point();
+            ResetBall();
+            transform.parent.GetComponent<GameController>().ResetGame();
         }
-        ResetBall();
-        transform.parent.GetComponent<GameController>().ResetGame();
+        if (col.name == "PlayerPaddle1" | col.name == "PlayerPaddle2")
+        {
+            paddleHitAudio.Play();
+        }
     }
 
     void ResetBall()

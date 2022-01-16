@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using Unity.UI;
 
 public class GameController : MonoBehaviour
 {
@@ -13,6 +12,7 @@ public class GameController : MonoBehaviour
     public TextMeshProUGUI player1ScoreUI;
     public TextMeshProUGUI player2ScoreUI;
     public TextMeshProUGUI startMessageUI;
+    private AudioSource newRoundAudio;
 
     private void Awake()
     {
@@ -21,6 +21,7 @@ public class GameController : MonoBehaviour
         player2Score = 0;
         player1ScoreUI = GameObject.Find("Player1Score").GetComponent<TextMeshProUGUI>();
         player2ScoreUI = GameObject.Find("Player2Score").GetComponent<TextMeshProUGUI>();
+        newRoundAudio = GetComponent<AudioSource>();
     }
 
     // Start is called before the first frame update
@@ -34,6 +35,7 @@ public class GameController : MonoBehaviour
     {
         if (playerInputActions.Game.Start.ReadValue<float>() != 0 && !gameStart)
         {
+            newRoundAudio.Play();
             BroadcastMessage("StartGame");
             gameStart = true;
         }
@@ -49,12 +51,20 @@ public class GameController : MonoBehaviour
     {
         player1Score++;
         player1ScoreUI.text = player1Score.ToString();
+        if (player1Score == 10)
+        {
+
+        }
     }
 
     public void Player2Point()
     {
         player2Score++;
         player2ScoreUI.text = player2Score.ToString();
+        if (player2Score == 10)
+        {
+
+        }
     }
 
     private void OnEnable()
