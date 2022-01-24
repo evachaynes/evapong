@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/EvaPongMenu.unity
+    path: Assets/Scenes/EvaPongTitle.unity
     guid: 417895f98f0f24387899693e965442e3
   - enabled: 1
     path: Assets/Scenes/EvaPong2Player.unity

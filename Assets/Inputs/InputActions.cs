@@ -135,6 +135,15 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Menu"",
+                    ""type"": ""Button"",
+                    ""id"": ""70f6a901-64ec-4a8e-a189-64aa5bf3dade"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -146,6 +155,17 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Start"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d8f26477-00c3-443f-a238-7ef0915a204d"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Menu"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -163,6 +183,7 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
         // Game
         m_Game = asset.FindActionMap("Game", throwIfNotFound: true);
         m_Game_Start = m_Game.FindAction("Start", throwIfNotFound: true);
+        m_Game_Menu = m_Game.FindAction("Menu", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -289,11 +310,13 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Game;
     private IGameActions m_GameActionsCallbackInterface;
     private readonly InputAction m_Game_Start;
+    private readonly InputAction m_Game_Menu;
     public struct GameActions
     {
         private @InputActions m_Wrapper;
         public GameActions(@InputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Start => m_Wrapper.m_Game_Start;
+        public InputAction @Menu => m_Wrapper.m_Game_Menu;
         public InputActionMap Get() { return m_Wrapper.m_Game; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -306,6 +329,9 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                 @Start.started -= m_Wrapper.m_GameActionsCallbackInterface.OnStart;
                 @Start.performed -= m_Wrapper.m_GameActionsCallbackInterface.OnStart;
                 @Start.canceled -= m_Wrapper.m_GameActionsCallbackInterface.OnStart;
+                @Menu.started -= m_Wrapper.m_GameActionsCallbackInterface.OnMenu;
+                @Menu.performed -= m_Wrapper.m_GameActionsCallbackInterface.OnMenu;
+                @Menu.canceled -= m_Wrapper.m_GameActionsCallbackInterface.OnMenu;
             }
             m_Wrapper.m_GameActionsCallbackInterface = instance;
             if (instance != null)
@@ -313,6 +339,9 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                 @Start.started += instance.OnStart;
                 @Start.performed += instance.OnStart;
                 @Start.canceled += instance.OnStart;
+                @Menu.started += instance.OnMenu;
+                @Menu.performed += instance.OnMenu;
+                @Menu.canceled += instance.OnMenu;
             }
         }
     }
@@ -328,5 +357,6 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
     public interface IGameActions
     {
         void OnStart(InputAction.CallbackContext context);
+        void OnMenu(InputAction.CallbackContext context);
     }
 }

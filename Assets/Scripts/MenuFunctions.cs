@@ -6,6 +6,10 @@ public class MenuFunctions : MonoBehaviour
 {
     public void loadNextScene(string sceneName)
     {
+        if (sceneName == "EvaPongTitle")
+        {
+            Time.timeScale = 1;
+        }
         SceneManager.LoadScene(sceneName);
     }
 

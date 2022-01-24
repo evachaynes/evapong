@@ -7,12 +7,14 @@ public class GameController : MonoBehaviour
 {
     private InputActions playerInputActions;
     private bool gameStart = false;
+    private bool gamePaused = false;
     public int player1Score;
     public int player2Score;
     public TextMeshProUGUI player1ScoreUI;
     public TextMeshProUGUI player2ScoreUI;
     public TextMeshProUGUI startMessageUI;
     public TextMeshProUGUI winMessageUI;
+    private GameObject pauseMenuUI;
     private AudioSource newRoundAudio;
 
     private void Awake()
@@ -23,6 +25,7 @@ public class GameController : MonoBehaviour
         player1ScoreUI = GameObject.Find("Player1Score").GetComponent<TextMeshProUGUI>();
         player2ScoreUI = GameObject.Find("Player2Score").GetComponent<TextMeshProUGUI>();
         winMessageUI = GameObject.Find("WinMessage").GetComponent<TextMeshProUGUI>();
+        pauseMenuUI = GameObject.Find("PauseMenu");
         newRoundAudio = GetComponent<AudioSource>();
     }
 
@@ -49,6 +52,29 @@ public class GameController : MonoBehaviour
             newRoundAudio.Play();
             BroadcastMessage("StartGame");
             gameStart = true;
+        }
+
+        // show menu
+        if (playerInputActions.Game.Menu.WasPressedThisFrame() == true && !gamePaused)
+        {
+
+            pauseMenuUI.transform.localScale = new Vector3(1,1,1);
+            Time.timeScale = 0;
+            playerInputActions.Paddle1.Disable();
+            playerInputActions.Paddle2.Disable();
+            playerInputActions.Game.Start.Disable();
+            gamePaused = true;
+            Debug.Log("Game Paused");
+        }
+        else if (playerInputActions.Game.Menu.WasPressedThisFrame() == true && gamePaused)
+        {
+            pauseMenuUI.transform.localScale = new Vector3(0,0,0);
+            Time.timeScale = 1;
+            playerInputActions.Paddle1.Enable();
+            playerInputActions.Paddle2.Enable();
+            playerInputActions.Game.Start.Enable();
+            gamePaused = false;
+            Debug.Log("Game Unpaused");
         }
     }
 
