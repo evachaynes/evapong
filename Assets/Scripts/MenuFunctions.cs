@@ -32,4 +32,19 @@ public class MenuFunctions : MonoBehaviour
         }
     
     }
+
+    public void ToggleHelp()
+    {
+        TextMeshProUGUI helpTextUI;
+        helpTextUI = GameObject.Find("HelpText").GetComponent<TextMeshProUGUI>();
+        if (helpTextUI.enabled == false)
+        {
+            helpTextUI.enabled = true;
+        }
+        else
+        {
+            helpTextUI.enabled = false;
+        }
+
+    }
 }
