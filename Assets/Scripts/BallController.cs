@@ -5,8 +5,8 @@ using UnityEngine;
 public class BallController : MonoBehaviour
 {
     private Rigidbody2D rb;
-    public float xForce = -45.0f;
-    public float yForce = -40.0f;
+    public float xForce = -50.0f;
+    public float yForce = -45.0f;
     private AudioSource[] sfxComponents;
     private AudioSource paddleHitAudio;
     private AudioSource wallHitAudio;
@@ -21,7 +21,7 @@ public class BallController : MonoBehaviour
 
     void StartGame()
     {
-        float yRandForce = Random.Range(-8.0f, 8.0f);
+        float yRandForce = Random.Range(-9.0f, 9.0f);
         Vector2 ballForce = new Vector2(xForce, yForce + yRandForce);
         rb.AddForce(ballForce);
     }
@@ -32,15 +32,15 @@ public class BallController : MonoBehaviour
         {
             wallHitAudio.Play();
             transform.parent.GetComponent<GameController>().Player2Point();
-            ResetBall();
             transform.parent.GetComponent<GameController>().ResetGame();
+            ResetBall();
         }
         if (col.name == "RightWall")
         {
             wallHitAudio.Play();
             transform.parent.GetComponent<GameController>().Player1Point();
-            ResetBall();
             transform.parent.GetComponent<GameController>().ResetGame();
+            ResetBall();
         }
         if (col.name == "PlayerPaddle1" | col.name == "PlayerPaddle2")
         {
