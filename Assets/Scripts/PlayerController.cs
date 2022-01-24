@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
     private float moveDirection;
     private Vector3 moveVector;
     [SerializeField] public int player;
-    [SerializeField] public float moveSpeed = 5.0f;
+    [SerializeField] public float moveSpeed = 7.0f;
 
     private void Awake()
     {
@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void LateUpdate()
+    void Update()
     {
         moveDirection = inputAction.ReadValue<float>();
         moveVector = new Vector3(0, moveDirection * moveSpeed, 0);
