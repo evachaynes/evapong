@@ -13,6 +13,7 @@ public class GameController : MonoBehaviour
     public TextMeshProUGUI player1ScoreUI;
     public TextMeshProUGUI player2ScoreUI;
     public TextMeshProUGUI startMessageUI;
+    private GameObject winMenuUI;
     public TextMeshProUGUI winMessageUI;
     private GameObject pauseMenuUI;
     private AudioSource newRoundAudio;
@@ -25,6 +26,7 @@ public class GameController : MonoBehaviour
         player1ScoreUI = GameObject.Find("Player1Score").GetComponent<TextMeshProUGUI>();
         player2ScoreUI = GameObject.Find("Player2Score").GetComponent<TextMeshProUGUI>();
         winMessageUI = GameObject.Find("WinMessage").GetComponent<TextMeshProUGUI>();
+        winMenuUI = GameObject.Find("WinMenu");
         pauseMenuUI = GameObject.Find("PauseMenu");
         newRoundAudio = GetComponent<AudioSource>();
     }
@@ -38,30 +40,19 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // start game, reset scores, play start sound
+        // start ball movement and play start sound
         if (playerInputActions.Game.Start.ReadValue<float>() != 0 && !gameStart)
         {
-            if (player1Score == 10 | player2Score == 10)
-            {
-                player1ScoreUI.text = "0";
-                player1Score = 0;
-                player2ScoreUI.text = "0";
-                player2Score = 0;
-                winMessageUI.text = "";
-            }
             newRoundAudio.Play();
             BroadcastMessage("StartGame");
             gameStart = true;
         }
 
-        // show menu
+        // show/hide menu
         if (playerInputActions.Game.Menu.WasPressedThisFrame() == true && !gamePaused)
         {
-
             pauseMenuUI.transform.localScale = new Vector3(1,1,1);
             Time.timeScale = 0;
-            playerInputActions.Paddle1.Disable();
-            playerInputActions.Paddle2.Disable();
             playerInputActions.Game.Start.Disable();
             gamePaused = true;
             Debug.Log("Game Paused");
@@ -70,8 +61,6 @@ public class GameController : MonoBehaviour
         {
             pauseMenuUI.transform.localScale = new Vector3(0,0,0);
             Time.timeScale = 1;
-            playerInputActions.Paddle1.Enable();
-            playerInputActions.Paddle2.Enable();
             playerInputActions.Game.Start.Enable();
             gamePaused = false;
             Debug.Log("Game Unpaused");
@@ -90,9 +79,12 @@ public class GameController : MonoBehaviour
         player1Score++;
         player1ScoreUI.text = player1Score.ToString();
         // show win screen when player reaches 10
-        if (player1Score == 10)
+        if (player1Score >= 10)
         {
+            Time.timeScale = 0;
+            playerInputActions.Game.Start.Disable();
             winMessageUI.text = "Player 1 Wins!";
+            winMenuUI.transform.localScale = new Vector3(1, 1, 1);
             gameStart = false;
         }
     }
@@ -103,12 +95,29 @@ public class GameController : MonoBehaviour
         player2Score++;
         player2ScoreUI.text = player2Score.ToString();
         // show win screen when player reaches 10
-        if (player2Score == 10)
+        if (player2Score >= 10)
         {
+            Time.timeScale = 0;
+            playerInputActions.Game.Start.Disable();
             winMessageUI.text = "Player 2 Wins!";
+            winMenuUI.transform.localScale = new Vector3(1, 1, 1);
             gameStart = false;
         }
     }
+
+    // reset game after a player wins
+    public void NewGame()
+    {
+        winMenuUI.transform.localScale = new Vector3(0, 0, 0);
+        player1ScoreUI.text = "0";
+        player1Score = 0;
+        player2ScoreUI.text = "0";
+        player2Score = 0;
+        winMessageUI.text = "";
+        Time.timeScale = 1;
+        playerInputActions.Game.Start.Enable();
+    }
+
 
     private void OnEnable()
     {
