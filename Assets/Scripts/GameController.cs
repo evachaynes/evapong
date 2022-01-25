@@ -17,6 +17,7 @@ public class GameController : MonoBehaviour
     public TextMeshProUGUI winMessageUI;
     private GameObject pauseMenuUI;
     private AudioSource newRoundAudio;
+    private BallController ballController;
 
     private void Awake()
     {
@@ -29,6 +30,7 @@ public class GameController : MonoBehaviour
         winMenuUI = GameObject.Find("WinMenu");
         pauseMenuUI = GameObject.Find("PauseMenu");
         newRoundAudio = GetComponent<AudioSource>();
+        ballController = GameObject.Find("Ball").GetComponent<BallController>();
     }
 
     // Start is called before the first frame update
@@ -76,6 +78,7 @@ public class GameController : MonoBehaviour
     // increment player 1 score
     public void Player1Point()
     {
+        ballController.ballDirection = -1;
         player1Score++;
         player1ScoreUI.text = player1Score.ToString();
         // show win screen when player reaches 10
@@ -92,6 +95,7 @@ public class GameController : MonoBehaviour
     // increment player 2 score
     public void Player2Point()
     {
+        ballController.ballDirection = 1;
         player2Score++;
         player2ScoreUI.text = player2Score.ToString();
         // show win screen when player reaches 10

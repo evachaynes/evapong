@@ -1294,8 +1294,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1dea7382b674483ba80000a81b12dea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  xForce: -45
-  yForce: -40
+  xForce: 50
+  yForce: -45
+  ballDirection: 1
 --- !u!50 &835527797
 Rigidbody2D:
   serializedVersion: 4

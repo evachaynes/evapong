@@ -1,12 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BallController : MonoBehaviour
 {
     private Rigidbody2D rb;
-    public float xForce = -50.0f;
+    public float xForce = 50.0f;
     public float yForce = -45.0f;
+    public float ballDirection = 1;
     private AudioSource[] sfxComponents;
     private AudioSource paddleHitAudio;
     private AudioSource wallHitAudio;
@@ -21,8 +20,8 @@ public class BallController : MonoBehaviour
 
     void StartGame()
     {
-        float yRandForce = Random.Range(-9.0f, 9.0f);
-        Vector2 ballForce = new Vector2(xForce, yForce + yRandForce);
+        float yRandForce = Random.Range(-6.0f, 9.0f);
+        Vector2 ballForce = new Vector2(xForce * ballDirection, yForce + yRandForce);
         rb.AddForce(ballForce);
     }
 
